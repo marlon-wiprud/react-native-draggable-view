@@ -26,15 +26,12 @@ class DraggableView extends Component {
     };
   }
 
-  componentDidMount() {
-    if (this.props.setRef) this.props.setRef(this);
+  // x = boolean, y = distance from top of screen to open the drawer too
+  toggle(x, y) {
+    const a = x ? y : this.state.initialPositon;
+    this.startAnimation(-100, 500, this.state.initialPositon, null, a);
+    this.props.onRelease && this.props.onRelease(x);
   }
-
-  resetPosition = num => {
-    const initialUsedSpace = Math.abs(num);
-    const initialDrawerSize = SCREEN_HEIGHT * (1 - initialUsedSpace);
-    this.setState({ initialPosition: initialDrawerSize });
-  };
 
   isAValidMovement = (distanceX, distanceY) => {
     const moveTravelledFarEnough =
